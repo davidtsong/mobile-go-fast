@@ -1,0 +1,21 @@
+
+
+## Supabse setup
+
+Init in the top level
+```
+supabase init
+```
+
+Link using your project-ref and supabase db password
+```
+supabase link --project-ref
+```
+Configure Twilio settings in the auth/providers page. It takes sometime to do A2P 10DLC registration for sending text messages from 10 digit phone numbers on Twilio. I'd recommend doing it sooner than later. It may be worthwhile to also run signup for messagebird too as a backup.
+
+Push initial migrations up to create user tables and storage!
+```
+supabase db push
+```
+
+This template also includes an email sign in / registration too. 
