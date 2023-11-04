@@ -30,6 +30,8 @@ export default function Home() {
       <Link  className="text-[32px]" href={{ pathname: 'details', params: { name: 'Bacon' } }}>Go to Details</Link>
       <Link  className="text-[32px]" href={{ pathname: 'emailLogin'}}>Email Login</Link>
       <Link  className="text-[32px]" href={{ pathname: 'login'}}>Phone Login</Link>
+      <Link  className="text-[32px]" href={{ pathname: 'upload'}}>Upload</Link>
+      <Link  className="text-[32px]" href={{ pathname: 'viewUploads'}}>View uploads</Link>
       <Pressable onPress={logOut}>
       <Text className="text-[32px]" onClick={logOut}>Log out</Text>
       </Pressable>

@@ -61,6 +61,7 @@ export default function PhoneAuth() {
     });
 
     if (error) {
+      console.log(error);
       Alert.alert("Error", error.message);
     }
     if (!error) {

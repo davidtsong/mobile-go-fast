@@ -4,7 +4,6 @@ create table profiles(
   updated_at timestamp with time zone,
   username text unique,
   full_name text,
-  website text,
   email text,
   phone text,
   constraint username_length check (char_length(username) >= 3)
@@ -28,7 +27,7 @@ create policy "Users can update own profile." on profiles
 create OR replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, full_name, avatar_url, email, phone)
+  insert into public.profiles (id, full_name, email, phone)
   values (
     new.id, 
     new.raw_user_meta_data->>'full_name', 
