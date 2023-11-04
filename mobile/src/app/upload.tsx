@@ -2,11 +2,12 @@ import Button from "@/components/Button";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, Text} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import ImageViewer from "@/components/ImageViewer";
 import * as Crypto from "expo-crypto";
 import { decode } from "base64-arraybuffer";
+import { GetRoast } from "@/utils/ai";
 const PlaceholderImage = require("@/assets/example.jpg");
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
   const [imageURI, setimageURI] = useState<string | null>(null);
   const [imageType, setimageType] = useState<string | null>(null);
   const [imageBase64, setimageBase64] = useState<string>("");
+  const [roast, setRoast] = useState<string>("");
   const supabase = useSupabaseClient();
   const router = useRouter();
 
@@ -53,11 +55,27 @@ export default function Home() {
     if (!result.canceled) {
       console.log(result);
       setimageURI(result.assets[0].uri);
+      setimageType(result.assets[0].type as string);
+      setimageBase64(result.assets[0].base64 as string);
     } else {
       alert("You did not select any image.");
     }
   };
 
+  const getBackendRoast = async () => {
+    console.log("Getting roast")
+    // Get file from uri
+    // const response = await fetch(imageURI!);
+    // const blob = await response.blob();
+    // const file = new File([blob], "image.jpg", { type: "image/jpeg" });
+    // console.log(file);
+    // Get roast from backend
+    // const roast = await GetRoast(file);
+    const roast = "Get roasted!"
+
+    console.log(roast);
+    setRoast(roast);
+  }
   const submitImage = async () => {
     if (!imageURI) {
       alert("You did not select any image.");
@@ -87,7 +105,7 @@ export default function Home() {
       .insert({
         user_id: user?.id,
         storage_path: filename,
-        description: "test",
+        description: roast,
       });
 
     if (error || error2) {
@@ -116,9 +134,12 @@ export default function Home() {
         placeholderImageSource={PlaceholderImage}
         selectedImage={imageURI}
       />
+      <Text>{roast}</Text>
       <Button label="Choose image" onPress={pickImageAsync} />
       <Button label="Take image" onPress={takeImageAsync} />
+      <Button label="Get roast" onPress={getBackendRoast} />
       <Button label="Submit" onPress={submitImage} />
+
     </View>
   );
 }
